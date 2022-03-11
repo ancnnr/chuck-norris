@@ -43,3 +43,13 @@
     transform: rotate(360deg);
   }
 }
+
+.author {
+  font-weight: 300;
+  font-size: calc(2px + 2vmin);
+  font-style: italic;
+  margin-top: 20px;
+  width: 80vw;
+  text-align: right;
+  
+}

@@ -1,12 +1,15 @@
-import logo from './logo.svg';
 import './App.css';
-import Joke from './components/Joke'
 import { useState } from 'react'
+import Jokes from './components/Jokes'
 
 function App() {
 
   const [jokes, setJokes] = useState()
+
+  const[showSaved, setShowSaved] = useState(false)
   
+  const [savedJokes, setSavedJokes] = useState([])
+
   const pullJoke = () => {
     const xhr = new XMLHttpRequest()
 
@@ -19,14 +22,32 @@ function App() {
     xhr.send()
 }
 
+const saveJoke = () => {
+  setSavedJokes([...savedJokes,jokes])
+}
+
+const showJokes = () => {
+  savedJokes.map((joke) => console.log(joke.value))
+}
+
+const deleteJoke = (jokeText) => {
+  setSavedJokes(jokes.filter((j) => j.value !== jokeText))
+}
+
+const toggleSavedJokes = () => {
+  setShowSaved(!showSaved)
+}
 
   return (
     <div className="App">
       <header className="App-header">
-        <Joke onClick={pullJoke} joke={ jokes ? jokes.value : 'Click here for a joke' }/>
-        <p>
-          Chuck Norris
+        <div onClick={pullJoke}>{ jokes ? jokes.value : 'Click here for a joke' }</div>
+        <p className="author">
+          - Chuck Norris
         </p>
+        <button onClick={saveJoke}>SAVE</button>
+        <button onClick={toggleSavedJokes}>Show Saved</button>
+        {showSaved && <Jokes savedJokes={savedJokes} onDelete={deleteJoke} />}
       </header>
     </div>
   );
