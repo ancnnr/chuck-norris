@@ -1,22 +1,32 @@
 import logo from './logo.svg';
 import './App.css';
+import Joke from './components/Joke'
+import { useState } from 'react'
 
 function App() {
+
+  const [jokes, setJokes] = useState()
+  
+  const pullJoke = () => {
+    const xhr = new XMLHttpRequest()
+
+    xhr.addEventListener('load', () => {
+        const newJoke = JSON.parse(xhr.responseText)
+        setJokes(newJoke)
+    })
+
+    xhr.open('GET','https://api.chucknorris.io/jokes/random')
+    xhr.send()
+}
+
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <Joke onClick={pullJoke} joke={ jokes ? jokes.value : 'Click here for a joke' }/>
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Chuck Norris
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </header>
     </div>
   );
