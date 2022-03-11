@@ -4,11 +4,10 @@ const Joke = ({ jokeText, onDelete }) => {
 
   return (
         <div>
-            <h3>{ jokeText }</h3>
+            <h3>{ jokeText } <FaTimes onClick={() => onDelete(jokeText)} style={{ color: 'red', cursor: 'pointer' }} /></h3>
         </div>
     )
   }
 
 export default Joke
 
-// <FaTimes onClick={() => onDelete(joke)} style={{ color: 'red', cursor: 'pointer' }} />

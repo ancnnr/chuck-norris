@@ -3,9 +3,8 @@ import Joke from './Joke'
 const Jokes = ( { savedJokes, onDelete }) => {
   return (
     <>
-        HEY!
         {savedJokes.map((joke) => (
-            <Joke cat={joke.categories} jokeText={joke.value} onDelete={onDelete}/>
+            <Joke key={joke.key} cat={joke.categories} jokeText={joke.value} onDelete={onDelete}/>
             
         ))}
     </>
