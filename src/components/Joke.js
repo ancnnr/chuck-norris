@@ -3,8 +3,9 @@ import { FaTimes } from 'react-icons/fa'
 const Joke = ({ jokeText, onDelete }) => {
 
   return (
-        <div>
-            <h3>{ jokeText } <FaTimes onClick={() => onDelete(jokeText)} style={{ color: 'red', cursor: 'pointer' }} /></h3>
+        <div className="joke-saved">
+            <h3>{ jokeText } </h3>
+            <FaTimes className="delete" onClick={() => onDelete(jokeText)} style={{ color: 'red', cursor: 'pointer' }} />
         </div>
     )
   }

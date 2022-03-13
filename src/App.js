@@ -1,7 +1,11 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { useState } from 'react'
 import Jokes from './components/Jokes'
 import CatLoad from './components/CatLoad'
+import { FaSave } from 'react-icons/fa'
+import ActionBar from './components/ActionBar'
+
 
 function App() {
 
@@ -12,6 +16,8 @@ function App() {
   const [savedJokes, setSavedJokes] = useState([])
 
   const[categories, setCategories] = useState()
+
+  const[catChosen, setCatChosen] = useState("random")
 
   const pullCategories = () => {
     const xhr = new XMLHttpRequest()
@@ -24,6 +30,9 @@ function App() {
     xhr.send()
   }
 
+  const chooseCategory = (cat) => {
+    setCatChosen(cat)
+  }
   const pullJoke = () => {
     const xhr = new XMLHttpRequest()
 
@@ -41,7 +50,7 @@ const saveJoke = () => {
   let duplicates = false
 
   savedJokes.map((joke) => {
-    if(joke.value == jokes.value)
+    if(joke.value === jokes.value)
     {
       duplicates = true
     }
@@ -51,7 +60,6 @@ const saveJoke = () => {
   {
     jokes.key=savedJokes.length+1
     setSavedJokes([...savedJokes,jokes])
-    console.log(categories)
   }
 
 }
@@ -71,16 +79,24 @@ const toggleSavedJokes = () => {
   return (
     <div className="App">
       <CatLoad cat={ pullCategories }/>
-      <header className="App-header">
-        <div onClick={pullJoke}>{ jokes ? jokes.value : 'Click here for a joke' }</div>
-        <p className="author">
-          - Chuck Norris
-        </p>
-        <button onClick={saveJoke}>SAVE</button>
-        <button onClick={toggleSavedJokes}>Show Saved</button>
+      <header className="App-container">
+        <div className="App-header">
+          <div onClick={pullJoke}>{ jokes ? jokes.value : 'Click for a joke' }</div>
+          <div className="save-buttons">
+            <FaSave onClick={() => {saveJoke()}} style={{ color: 'white', cursor: 'pointer' }} />
+            {showSaved ? <button className="btn" onClick={toggleSavedJokes}>Hide Saved</button> : 
+            <button className="btn" onClick={toggleSavedJokes}>Show Saved</button>}
+          </div>
+        </div>
+
+        <ActionBar catChosen={catChosen} chooseCat={chooseCategory} onJoke={pullJoke}/>
+
+        {showSaved ? 
+        <div className="saved-jokes">
+          {<Jokes savedJokes={savedJokes} onDelete={deleteJoke} /> }
+          {savedJokes.length === 0 ? 'No Saved Jokes to Show' : ''}
+        </div> : ''}
         
-        {showSaved && <Jokes savedJokes={savedJokes} onDelete={deleteJoke} /> }
-        {showSaved && savedJokes.length == 0 ? 'No Saved Jokes to Show' : ''}
       </header>
     </div>
   );

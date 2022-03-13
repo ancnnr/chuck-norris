@@ -4,7 +4,7 @@ const Jokes = ( { savedJokes, onDelete }) => {
   return (
     <>
         {savedJokes.map((joke) => (
-            <Joke key={joke.key} cat={joke.categories} jokeText={joke.value} onDelete={onDelete}/>
+            <Joke key={joke.id} cat={joke.categories} jokeText={joke.value} onDelete={onDelete}/>
             
         ))}
     </>
