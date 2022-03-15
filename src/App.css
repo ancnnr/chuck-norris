@@ -18,25 +18,27 @@
 .nav-bar {
 }
 
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
 .nav-bar ul {
   display: flex;
   justify-content: space-between;
   gap: 20px;
   align-items: center;
-  list-style-type: none;
   padding: 0;
   align-content: stretch;
-  
-  
 }
 
 .nav-bar li {
   border-radius: 10px;
   background-color: #4e5666;
   color: white;
-  padding: 0;
+  padding: 10px;
   margin: 0;
-  width: 5vw;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -49,7 +51,7 @@
 .nav-bar a {
   text-decoration: none;
   color: white;
-  font-size: calc(2vh);
+  font-size: calc(2vw);
   margin: 0;
   padding: 0;
 }
@@ -94,9 +96,29 @@
   display: flex;
   justify-content:space-between;
   align-items: center;
-  
 }
 
+.about-container {
+  display: flex;
+  min-width: 50vw;
+  flex-direction: column;
+  justify-content:center;
+  align-items: stretch;
+}
+
+.my-story {
+  margin-top: 40px;
+  border-radius: 10px;
+  background-color: #4e5666;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  font-size: calc(1.5vh);
+}
+
+.my-story h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

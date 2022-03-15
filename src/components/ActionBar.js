@@ -5,7 +5,6 @@ const ActionBar = ({ categories, catChosen, chooseCat, onJoke}) => {
     
        
     const handleSelect = (e) => {
-        console.log(e)
         chooseCat(e)
         }
 
@@ -13,8 +12,9 @@ const ActionBar = ({ categories, catChosen, chooseCat, onJoke}) => {
     <div className="action-bar">
         <DropdownButton id="dropdown-basic-button" onSelect={handleSelect} title={"Category: " + catChosen}>
             <Dropdown.Item eventKey='random'>random</Dropdown.Item>
+            
             {categories.map((cat) => (
-                <Dropdown.Item eventKey={cat}>{cat}</Dropdown.Item>
+                <Dropdown.Item key={cat} eventKey={cat}>{cat}</Dropdown.Item>
                 ))} 
         </DropdownButton>
         <button className="btn" onClick={onJoke}>New Joke</button>

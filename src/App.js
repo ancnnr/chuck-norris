@@ -11,72 +11,8 @@ import {
   BrowserRouter as Router, Routes, Route, Link
 } from "react-router-dom";
 
-function Home() {
-  const [jokes, setJokes] = useState()
-
-  const[showSaved, setShowSaved] = useState(false)
-  
-  const [savedJokes, setSavedJokes] = useState([])
-
-  const[categories, setCategories] = useState([])
-
-  const[catChosen, setCatChosen] = useState("random")
-
-  async function pullCategories(){
-    const response = await ky.get('https://api.chucknorris.io/jokes/categories').json()
-    console.log(response)
-    setCategories(response)
-  }
-
-  const chooseCategory = (cat) => {
-    setCatChosen(cat)
-  }
-
-  async function pullJoke(){
-    let response
-
-    if(catChosen==="random")
-    {
-      response = await ky.get('https://api.chucknorris.io/jokes/random').json()
-    }
-    else{
-      response = await ky.get('https://api.chucknorris.io/jokes/random?category='+catChosen).json()
-    }
-    
-    console.log(response)
-    setJokes(response)
-}
-
-const saveJoke = () => {
-
-  let duplicates = false
-
-  savedJokes.map((joke) => {
-    if(joke.value === jokes.value)
-    {
-      duplicates = true
-    }
-  })
-  
-  if(!duplicates)
-  {
-    jokes.key=savedJokes.length+1
-    setSavedJokes([...savedJokes,jokes])
-  }
-
-}
-
-const showJokes = () => {
-  savedJokes.map((joke) => console.log(joke.value))
-}
-
-const deleteJoke = (jokeText) => {
-  setSavedJokes(savedJokes.filter((j) => j.value !== jokeText))
-}
-
-const toggleSavedJokes = () => {
-  setShowSaved(!showSaved)
-}
+function Home({pullCategories, pullJoke, jokes, saveJoke, showSaved, toggleSavedJokes, categories, catChosen, chooseCategory, savedJokes, deleteJoke}) {
+ 
 return (
   <div>
       <CatLoad cat={ pullCategories }/>
@@ -104,19 +40,42 @@ return (
 }
 
 function About() {
+  const myStory = ["My name is Adam Conner. I am a software developer who has a degree in Mathematics \
+  and Computer Science. I have been working as a high school CS and Math teacher for 13 years but am now \
+  moving into the software engineer field full time.",
+"My experience is varied but it includes the following areas:"
+]
+
   return (
     <div>
-      <header>
-        <div className="App-header">
+      <header className='about-container'>
+        <div>
           <h1>About Me</h1>
         </div>
 
         
-        <div className="saved-jokes">
-         <h2>Here is my story</h2>
-         <p>And there it goes on and on and on</p>
+        <div className="my-story">
+         <h2>My Story</h2>
+         <p>{myStory[0]}</p>
         </div>
         
+        <div className="my-story">
+         <h2>My Experience</h2>
+         <p>{myStory[1]}</p>
+         <ul>
+           <li>Java</li>
+           <li>Python</li>
+           <li>Flask</li>
+           <li>React</li>
+           <li>Vue</li>
+           <li>Ruby</li>
+           <li>NodeJS</li>
+           <li>JavaScript</li>
+           <li>CSS</li>
+         </ul>
+        </div>
+
+
       </header>
     </div>
   );
@@ -124,6 +83,67 @@ function About() {
 
 
 function App() {
+
+  const [jokes, setJokes] = useState()
+
+  const[showSaved, setShowSaved] = useState(false)
+  
+  const [savedJokes, setSavedJokes] = useState([])
+
+  const[categories, setCategories] = useState([])
+
+  const[catChosen, setCatChosen] = useState("random")
+
+  async function pullCategories(){
+    const response = await ky.get('https://api.chucknorris.io/jokes/categories').json()
+    setCategories(response)
+  }
+
+  const chooseCategory = (cat) => {
+    setCatChosen(cat)
+  }
+
+  async function pullJoke(){
+    let response
+
+    if(catChosen==="random")
+    {
+      response = await ky.get('https://api.chucknorris.io/jokes/random').json()
+    }
+    else{
+      response = await ky.get('https://api.chucknorris.io/jokes/random?category='+catChosen).json()
+    }
+    
+    setJokes(response)
+}
+
+const saveJoke = () => {
+
+  let duplicates = false
+
+  savedJokes.map((joke) => {
+    if(joke.value === jokes.value)
+    {
+      duplicates = true
+    }
+  })
+  
+  if(!duplicates)
+  {
+    jokes.key=savedJokes.length+1
+    setSavedJokes([...savedJokes,jokes])
+  }
+
+}
+
+
+const deleteJoke = (jokeText) => {
+  setSavedJokes(savedJokes.filter((j) => j.value !== jokeText))
+}
+
+const toggleSavedJokes = () => {
+  setShowSaved(!showSaved)
+}  
   return (
     <Router>
       <div className="App">
@@ -141,7 +161,7 @@ function App() {
       
 
       <Routes>
-        <Route path="/" element={<Home/>} />
+        <Route path="/" element={<Home pullCategories={pullCategories} pullJoke={pullJoke} jokes={jokes} saveJoke={saveJoke} showSaved={showSaved} toggleSavedJokes={toggleSavedJokes} categories={categories} catChosen={catChosen} chooseCategory={chooseCategory} savedJokes={savedJokes} deleteJoke={deleteJoke} />} />
         <Route path="/about" element={<About/>} />
       </Routes>
       </div>
