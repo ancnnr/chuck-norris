@@ -1,48 +1,50 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import React from 'react';
 import { useState } from 'react'
 import Jokes from './components/Jokes'
 import CatLoad from './components/CatLoad'
 import { FaSave } from 'react-icons/fa'
 import ActionBar from './components/ActionBar'
+import ky from 'ky';
+import {
+  BrowserRouter as Router, Routes, Route, Link
+} from "react-router-dom";
 
-
-function App() {
-
+function Home() {
   const [jokes, setJokes] = useState()
 
   const[showSaved, setShowSaved] = useState(false)
   
   const [savedJokes, setSavedJokes] = useState([])
 
-  const[categories, setCategories] = useState()
+  const[categories, setCategories] = useState([])
 
   const[catChosen, setCatChosen] = useState("random")
 
-  const pullCategories = () => {
-    const xhr = new XMLHttpRequest()
-
-    xhr.addEventListener('load', () => {
-      setCategories(JSON.parse(xhr.responseText))
-    })
-
-    xhr.open('GET', 'https://api.chucknorris.io/jokes/categories')
-    xhr.send()
+  async function pullCategories(){
+    const response = await ky.get('https://api.chucknorris.io/jokes/categories').json()
+    console.log(response)
+    setCategories(response)
   }
 
   const chooseCategory = (cat) => {
     setCatChosen(cat)
   }
-  const pullJoke = () => {
-    const xhr = new XMLHttpRequest()
 
-    xhr.addEventListener('load', () => {
-        const newJoke = JSON.parse(xhr.responseText)
-        setJokes(newJoke)
-    })
+  async function pullJoke(){
+    let response
 
-    xhr.open('GET','https://api.chucknorris.io/jokes/random')
-    xhr.send()
+    if(catChosen==="random")
+    {
+      response = await ky.get('https://api.chucknorris.io/jokes/random').json()
+    }
+    else{
+      response = await ky.get('https://api.chucknorris.io/jokes/random?category='+catChosen).json()
+    }
+    
+    console.log(response)
+    setJokes(response)
 }
 
 const saveJoke = () => {
@@ -75,11 +77,10 @@ const deleteJoke = (jokeText) => {
 const toggleSavedJokes = () => {
   setShowSaved(!showSaved)
 }
-
-  return (
-    <div className="App">
+return (
+  <div>
       <CatLoad cat={ pullCategories }/>
-      <header className="App-container">
+      <header>
         <div className="App-header">
           <div onClick={pullJoke}>{ jokes ? jokes.value : 'Click for a joke' }</div>
           <div className="save-buttons">
@@ -89,7 +90,7 @@ const toggleSavedJokes = () => {
           </div>
         </div>
 
-        <ActionBar catChosen={catChosen} chooseCat={chooseCategory} onJoke={pullJoke}/>
+        <ActionBar categories={categories} catChosen={catChosen} chooseCat={chooseCategory} onJoke={pullJoke}/>
 
         {showSaved ? 
         <div className="saved-jokes">
@@ -99,6 +100,54 @@ const toggleSavedJokes = () => {
         
       </header>
     </div>
+);
+}
+
+function About() {
+  return (
+    <div>
+      <header>
+        <div className="App-header">
+          <h1>About Me</h1>
+        </div>
+
+        
+        <div className="saved-jokes">
+         <h2>Here is my story</h2>
+         <p>And there it goes on and on and on</p>
+        </div>
+        
+      </header>
+    </div>
+  );
+}
+
+
+function App() {
+  return (
+    <Router>
+      <div className="App">
+        <div className="App-container">
+        <nav className="nav-bar">
+          <ul>
+            <li>
+              <Link to="/">Jokes</Link>
+            </li>
+            <li>
+              <Link to="/about">About</Link>
+            </li>
+          </ul>
+        </nav>
+      
+
+      <Routes>
+        <Route path="/" element={<Home/>} />
+        <Route path="/about" element={<About/>} />
+      </Routes>
+      </div>
+      </div>
+    </Router>
+    
   );
 }
 
