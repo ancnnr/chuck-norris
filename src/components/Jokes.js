@@ -17,7 +17,7 @@ const Jokes = ( { savedJokes, onDelete }) => {
           }
           return 0;
         }).map((joke) => (
-            <Joke key={joke.id} cat={joke.categories} jokeText={joke.value} onDelete={onDelete}/>
+            <Joke key={joke.id} cat={joke.categories} joke={joke} onDelete={onDelete}/>
             
         ))}
     </>

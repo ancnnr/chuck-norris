@@ -44,7 +44,6 @@ return (
 );
 }
 
-//{savedJokes.length === 0 ? 'No Saved Jokes to Show' : ''}
 
 
 function About() {
