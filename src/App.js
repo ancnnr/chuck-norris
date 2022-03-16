@@ -28,16 +28,24 @@ return (
 
         <ActionBar categories={categories} catChosen={catChosen} chooseCat={chooseCategory} onJoke={pullJoke}/>
 
-        {showSaved ? 
+        {showSaved && savedJokes.length>0 ? 
         <div className="saved-jokes">
+          <div className="table-header">
+            <div>Category</div>
+            <div>Joke</div>
+            <div>Delete?</div>
+          </div>
           {<Jokes savedJokes={savedJokes} onDelete={deleteJoke} /> }
-          {savedJokes.length === 0 ? 'No Saved Jokes to Show' : ''}
+          
         </div> : ''}
-        
+        {showSaved && savedJokes.length===0 ? 'No Saved Jokes to Show' : ''}
       </header>
     </div>
 );
 }
+
+//{savedJokes.length === 0 ? 'No Saved Jokes to Show' : ''}
+
 
 function About() {
   const myStory = ["My name is Adam Conner. I am a software developer who has a degree in Mathematics \
@@ -109,6 +117,7 @@ function App() {
     if(catChosen==="random")
     {
       response = await ky.get('https://api.chucknorris.io/jokes/random').json()
+      response.categories[0]='random'
     }
     else{
       response = await ky.get('https://api.chucknorris.io/jokes/random?category='+catChosen).json()
