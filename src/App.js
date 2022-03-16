@@ -130,8 +130,26 @@ const saveJoke = () => {
   
   if(!duplicates)
   {
-    jokes.key=savedJokes.length+1
     setSavedJokes([...savedJokes,jokes])
+    
+    /*
+    const tempSavedJokes = savedJokes
+    tempSavedJokes.sort((a, b) => {
+      let fa = a.categories[0].toLowerCase(),
+          fb = b.categories[0].toLowerCase();
+  
+      if (fa < fb) {
+          return -1;
+      }
+      if (fa > fb) {
+          return 1;
+      }
+      return 0;
+  });
+
+  //setSavedJokes(tempSavedJokes)
+  */
+
   }
 
 }
