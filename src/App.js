@@ -11,7 +11,7 @@ import {
   BrowserRouter as Router, Routes, Route, Link
 } from "react-router-dom";
 
-function Home({pullCategories, pullJoke, jokes, saveJoke, showSaved, toggleSavedJokes, categories, catChosen, chooseCategory, savedJokes, deleteJoke}) {
+function Home({pullCategories, pullJoke, jokes, saveJoke, showSaved, toggleSavedJokes, categories, catChosen, chooseCategory, savedJokes, deleteJoke, editOn, toggleEdit, editJokeId}) {
  
 return (
   <div>
@@ -35,7 +35,7 @@ return (
             <div>Joke</div>
             <div>Delete?</div>
           </div>
-          {<Jokes savedJokes={savedJokes} onDelete={deleteJoke} /> }
+          {<Jokes savedJokes={savedJokes} onDelete={deleteJoke} editOn={editOn} toggleEdit={toggleEdit} editJokeId={editJokeId} /> }
           
         </div> : ''}
         {showSaved && savedJokes.length===0 ? 'No Saved Jokes to Show' : ''}
@@ -101,9 +101,48 @@ function App() {
 
   const[catChosen, setCatChosen] = useState("random")
 
+  const[editOn, setEditOn] = useState(false)
+
+  const[editJokeId, setEditJokeID] = useState(-1)
+
   async function pullCategories(){
     const response = await ky.get('https://api.chucknorris.io/jokes/categories').json()
     setCategories(response)
+  }
+
+  const toggleEdit = (j, id) => {
+
+
+    const editObj = document.getElementById('sj-'+id)
+
+    if(!editOn) // about to start editing
+    {
+      editObj.setAttribute('contentEditable', true)
+      setEditJokeID(id)
+    }
+
+    else { // just finished editing
+      editObj.setAttribute('contentEditable', false)
+      setEditJokeID(-1)
+      
+      const temp_saved_jokes = []
+
+      savedJokes.forEach((state_joke) => {
+            temp_saved_jokes.push(state_joke)
+          })
+
+          temp_saved_jokes.forEach((temp_joke) => {
+            if(j.id===temp_joke.id)
+            {
+              temp_joke.value = editObj.textContent
+            }
+          })
+
+          setSavedJokes(temp_saved_jokes)
+    }
+    
+    setEditOn(!editOn)
+
   }
 
   const chooseCategory = (cat) => {
@@ -187,7 +226,7 @@ const toggleSavedJokes = () => {
       
 
       <Routes>
-        <Route path="/" element={<Home pullCategories={pullCategories} pullJoke={pullJoke} jokes={jokes} saveJoke={saveJoke} showSaved={showSaved} toggleSavedJokes={toggleSavedJokes} categories={categories} catChosen={catChosen} chooseCategory={chooseCategory} savedJokes={savedJokes} deleteJoke={deleteJoke} />} />
+        <Route path="/" element={<Home pullCategories={pullCategories} pullJoke={pullJoke} jokes={jokes} saveJoke={saveJoke} showSaved={showSaved} toggleSavedJokes={toggleSavedJokes} categories={categories} catChosen={catChosen} chooseCategory={chooseCategory} savedJokes={savedJokes} deleteJoke={deleteJoke} editOn={editOn} toggleEdit={toggleEdit} editJokeId={editJokeId} />} />
         <Route path="/about" element={<About/>} />
       </Routes>
       </div>

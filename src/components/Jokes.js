@@ -1,6 +1,6 @@
 import Joke from './Joke'
 
-const Jokes = ( { savedJokes, onDelete }) => {
+const Jokes = ( { savedJokes, onDelete, editOn, toggleEdit, editJokeId }) => {
   return (
     <>
         {
@@ -16,8 +16,8 @@ const Jokes = ( { savedJokes, onDelete }) => {
               return 1;
           }
           return 0;
-        }).map((joke) => (
-            <Joke key={joke.id} cat={joke.categories} joke={joke} onDelete={onDelete}/>
+        }).map((joke, index) => (
+            <Joke key={joke.id} cat={joke.categories} joke={joke} onDelete={onDelete} editOn={editOn} toggleEdit={toggleEdit} editJokeId={editJokeId} index={index}/>
             
         ))}
     </>
