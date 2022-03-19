@@ -181,11 +181,17 @@ ul {
   align-items: center;
 }
 
-.joke-saved h3 {
+.joke-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.joke-content h3 {
   font-size: calc(2vh);
 }
 
-.joke-saved p {
+.joke-content p {
   justify-self: flex-start;
   margin: 0;
   margin-right: 30px;

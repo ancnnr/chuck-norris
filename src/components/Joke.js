@@ -4,7 +4,7 @@ const Joke = ({ cat, joke, onDelete, editOn, toggleEdit, editJokeId, index }) =>
 
    return (
         <div className="joke-saved">
-            <div>
+            <div className="joke-content">
               <p>{cat}</p>
               <h3 id={'sj-'+index}>{joke.value}</h3>
             </div>
