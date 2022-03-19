@@ -1,6 +1,10 @@
 //Time to implement REDUX
 
 
+
+
+
+//App pre Redux
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import React from 'react';
