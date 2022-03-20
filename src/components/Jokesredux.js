@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {fetchJoke, fetchRandomJoke, fetchCategories, saveJoke, toggleShowSaved, getShowSaved, deleteSavedJoke} from '../actions/jokeActions';
+import {fetchJoke, fetchRandomJoke, fetchCategories, saveJoke, toggleShowSaved, getShowSaved, deleteSavedJoke, getEditJokeID, toggleEditing, setEditJokeID} from '../actions/jokeActions';
 import PropTypes from 'prop-types';
-import { FaSave, FaTimes } from 'react-icons/fa'
-//import ActionBar from './components/ActionBar'
+import { FaSave, FaTimes, FaCheckSquare, FaEdit } from 'react-icons/fa'
+import ActionBarRedux from './ActionBarRedux'
 
 class Jokesredux extends Component {
 
@@ -15,8 +15,44 @@ class Jokesredux extends Component {
       this.pullJoke = this.pullJoke.bind(this);
       this.saveJoke = this.saveJoke.bind(this);
       this.onDelete = this.onDelete.bind(this);
+      this.toggleEdit = this.toggleEdit.bind(this);
     }
     
+    toggleEdit(j, i)
+    {
+      const editObj = document.getElementById('sj-'+i)
+
+      if(!this.props.editing) // about to start editing
+      {
+        editObj.setAttribute('contentEditable', true)
+        editObj.classList.add('editing')
+        this.props.setEditJokeID(i)
+      }
+  
+      else { // just finished editing
+        editObj.setAttribute('contentEditable', false)
+        editObj.classList.remove('editing')
+        this.props.setEditJokeID(-1)
+        
+        const temp_saved_jokes = []
+  
+        this.props.savedJokes.forEach((state_joke) => {
+              temp_saved_jokes.push(state_joke)
+            })
+  
+            temp_saved_jokes.forEach((temp_joke) => {
+              if(j.id===temp_joke.id)
+              {
+                temp_joke.value = editObj.textContent
+              }
+            })
+  
+            this.props.saveJoke(temp_saved_jokes)
+      }
+      
+      this.props.toggleEditing()
+    }
+
     onDelete(j){
       this.props.deleteSavedJoke(j)
     }
@@ -24,7 +60,6 @@ class Jokesredux extends Component {
     pullJoke() {
       if(this.props.category==='random')
       {
-        console.log('fetching1')
         this.props.fetchRandomJoke()
       }
 
@@ -59,7 +94,6 @@ class Jokesredux extends Component {
         return (
           <header>
             <div className="App-header">
-                {console.log(this.props)}
               <div onClick={this.pullJoke}>{ JSON.stringify(this.props.joke)!=='{}' ? this.props.joke.value : 'Click for a joke' }</div>
 
               <div className="save-buttons">
@@ -69,6 +103,8 @@ class Jokesredux extends Component {
               </div>
             </div>
                
+            <ActionBarRedux />
+
             {this.props.showSaved && this.props.savedJokes.length>0 ? 
             <div className="saved-jokes">
               <div className="table-header">
@@ -95,6 +131,7 @@ class Jokesredux extends Component {
                     <h3 id={'sj-'+index}>{j.value}</h3>
                   </div>
                 <FaTimes key={j.id} className="delete" onClick={() => {this.onDelete(j)}} style={{ color: 'red', cursor: 'pointer' }} />
+                {index===this.props.editJokeID ? <FaCheckSquare className="delete" onClick={() => this.toggleEdit(j, index)} style={{color: 'white', cursor: 'pointer'}} /> : <FaEdit className="delete" onClick={() => this.toggleEdit(j, index)} style={{ color: 'white', cursor: 'pointer'}} />}
             </div>)
               })}
               
@@ -120,18 +157,19 @@ const mapStateToProps = state => ({
   category: state.jokes.category,
   category_list: state.jokes.category_list,
   savedJokes: state.jokes.savedJokes,
-  showSaved: state.jokes.showSaved
+  showSaved: state.jokes.showSaved,
+  editing: state.jokes.editing,
+  editJokeID: state.jokes.editJokeID
 })
 
-export default connect(mapStateToProps, { fetchCategories, fetchJoke, fetchRandomJoke, saveJoke, toggleShowSaved, getShowSaved, deleteSavedJoke })(Jokesredux);
-
+export default connect(mapStateToProps, { fetchCategories, fetchJoke, fetchRandomJoke, saveJoke, toggleShowSaved, getShowSaved, deleteSavedJoke, getEditJokeID, toggleEditing, setEditJokeID })(Jokesredux);
 
 /*
 
 
-{index===editJokeId ? <FaCheckSquare className="delete" onClick={() => toggleEdit(joke, index)} style={{color: 'white', cursor: 'pointer'}} /> : <FaEdit className="delete" onClick={() => toggleEdit(joke, index)} style={{ color: 'white', cursor: 'pointer'}} />}
 
-<ActionBar categories={categories} catChosen={catChosen} chooseCat={chooseCategory} onJoke={pullJoke}/>
+
+
 
             
 

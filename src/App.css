@@ -171,20 +171,28 @@ ul {
   transform: scale(0.98);
 }
 
+.editing {
+  background-color: azure;
+  color: black;
+}
+
 .joke-saved {
   margin: 10px;
   padding: 10px;
   background-color: #282c34;
   border-radius: 10px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .joke-content {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  width: 100%;
+  
 }
 
 .joke-content h3 {
@@ -197,9 +205,10 @@ ul {
   margin-right: 30px;
   margin-left: 15px;
   padding: 0;
+  
 }
 .delete {
-  justify-self: flex-end;
+  justify-self:flex-end;
   flex-shrink: 0;
   margin-left: 30px;
   margin-right: 20px;

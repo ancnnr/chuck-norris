@@ -1,7 +1,7 @@
-import { FETCH_CATEGORIES, FETCH_JOKE, FETCH_RANDOM, GET_SHOW_SAVED, SAVE_JOKE, TOGGLE_SHOW_SAVED, DELETE_SAVED_JOKE } from "./types";
+import { FETCH_CATEGORIES, FETCH_JOKE, FETCH_RANDOM, GET_SHOW_SAVED, SAVE_JOKE, TOGGLE_SHOW_SAVED, DELETE_SAVED_JOKE, CHOOSE_CATEGORY, GET_EDIT_JOKEID, TOGGLE_EDITING, SET_EDIT_JOKEID} from "./types";
 
 export const fetchRandomJoke = () => dispatch => {
-    console.log('fetching2')
+    
         fetch('https://api.chucknorris.io/jokes/random')
         .then(res => res.json())
         .then(joke => dispatch({
@@ -11,12 +11,24 @@ export const fetchRandomJoke = () => dispatch => {
 }
 
 export const fetchJoke = (cat) => dispatch => {
-    fetch('https://api.chucknorris.io/jokes/random?category='+cat)
-    .then(res => res.json())
-    .then(joke => dispatch({
-        type: FETCH_JOKE,
-        payload: joke
-    }));
+    if(cat=='random')
+    {
+        fetch('https://api.chucknorris.io/jokes/random')
+        .then(res => res.json())
+        .then(joke => dispatch({
+            type: FETCH_RANDOM,
+            payload: joke 
+        }));
+    }
+    else{
+        fetch('https://api.chucknorris.io/jokes/random?category='+cat)
+        .then(res => res.json())
+        .then(joke => dispatch({
+            type: FETCH_JOKE,
+            payload: joke
+        }));
+    }
+
 }
 
 export const fetchCategories = () => dispatch => {
@@ -36,9 +48,17 @@ export const saveJoke = (j) => dispatch => {
     });
 }
 
+
 export const toggleShowSaved = () => dispatch => {
     dispatch({
         type: TOGGLE_SHOW_SAVED,
+        payload: ''
+    })
+}
+
+export const toggleEditing = () => dispatch => {
+    dispatch({
+        type: TOGGLE_EDITING,
         payload: ''
     })
 }
@@ -50,9 +70,31 @@ export const getShowSaved = () => dispatch => {
     })
 }
 
+
+export const getEditJokeID = () => dispatch => {
+    dispatch({
+        type: GET_EDIT_JOKEID,
+        payload: ''
+    })
+}
+
+export const setEditJokeID = (i) => dispatch => {
+    dispatch({
+        type: SET_EDIT_JOKEID,
+        payload: i
+    })
+}
+
 export const deleteSavedJoke = (j) => dispatch => {
     dispatch({
         type: DELETE_SAVED_JOKE,
         payload: j
+    })
+}
+
+export const chooseCategory = (c) => dispatch => {
+    dispatch({
+        type: CHOOSE_CATEGORY,
+        payload: c
     })
 }
