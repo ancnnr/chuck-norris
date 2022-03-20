@@ -1,6 +1,6 @@
 //Time to implement REDUX
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+import store from '../app/store';
 
 
 
@@ -9,15 +9,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import React from 'react';
 import { useState } from 'react'
-import Jokes from './components/Jokes'
-import CatLoad from './components/CatLoad'
+import Jokes from '../components/Jokes'
+import CatLoad from '../components/CatLoad'
 import { FaSave } from 'react-icons/fa'
-import ActionBar from './components/ActionBar'
+import ActionBar from '../components/ActionBar'
 import ky from 'ky';
 import {
   BrowserRouter as Router, Routes, Route, Link
 } from "react-router-dom";
-import { applyMiddleware } from 'redux';
+
 
 function Home({pullCategories, pullJoke, jokes, saveJoke, showSaved, toggleSavedJokes, categories, catChosen, chooseCategory, savedJokes, deleteJoke, editOn, toggleEdit, editJokeId}) {
  
@@ -100,7 +100,7 @@ function About() {
 
 
 function App() {
-  const store = createStore(() => [], {}, applyMiddleware());
+  
 
   const [jokes, setJokes] = useState()
 

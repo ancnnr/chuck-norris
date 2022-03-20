@@ -9,15 +9,16 @@ class Jokesredux extends Component {
 
     constructor(props) {
       super(props);
-
       
-
+      //bind class methods
       this.pullJoke = this.pullJoke.bind(this);
       this.saveJoke = this.saveJoke.bind(this);
       this.onDelete = this.onDelete.bind(this);
       this.toggleEdit = this.toggleEdit.bind(this);
     }
     
+    //used to toggle the editability of an element and store it's textcontent back to savedJokes
+    //params: joke object, index of object in savedJokes
     toggleEdit(j, i)
     {
       const editObj = document.getElementById('sj-'+i)
@@ -53,10 +54,12 @@ class Jokesredux extends Component {
       this.props.toggleEditing()
     }
 
+    //deletes a joke object from savedJokes
     onDelete(j){
       this.props.deleteSavedJoke(j)
     }
 
+    //pulls a new joke from API
     pullJoke() {
       if(this.props.category==='random')
       {
@@ -69,6 +72,7 @@ class Jokesredux extends Component {
       
     }
 
+    //saves the current joke in savedJokes
     saveJoke() {
       let duplicates = false
 
@@ -85,62 +89,64 @@ class Jokesredux extends Component {
       }
   }
 
-    componentDidMount() {
-      this.props.fetchCategories();
-      //this.props.fetchRandomJoke();
-    }
+  //fetch the categories array from the API once component is mounted
+  componentDidMount() {
+    this.props.fetchCategories();
+  }
 
-    render() {
-        return (
-          <header>
-            <div className="App-header">
-              <div onClick={this.pullJoke}>{ JSON.stringify(this.props.joke)!=='{}' ? this.props.joke.value : 'Click for a joke' }</div>
+  render() {
+      return (
+        <header>
+          <div className="App-header">
+            
+            <div onClick={this.pullJoke}>{ JSON.stringify(this.props.joke)!=='{}' ? this.props.joke.value : 'Click for a joke' }</div>
 
-              <div className="save-buttons">
-                <FaSave onClick={this.saveJoke} style={{ color: 'white', cursor: 'pointer' }} />
-                {this.props.showSaved ? <button className="btn" onClick={this.props.toggleShowSaved}>Hide Saved</button> : 
-                <button className="btn" onClick={this.props.toggleShowSaved}>Show Saved</button>}
-              </div>
+            <div className="save-buttons">
+              <FaSave onClick={this.saveJoke} style={{ color: 'white', cursor: 'pointer' }} />
+              {this.props.showSaved ? <button className="btn" onClick={this.props.toggleShowSaved}>Hide Saved</button> : 
+              <button className="btn" onClick={this.props.toggleShowSaved}>Show Saved</button>}
             </div>
-               
-            <ActionBarRedux />
+          </div>
+              
+          <ActionBarRedux />
 
-            {this.props.showSaved && this.props.savedJokes.length>0 ? 
-            <div className="saved-jokes">
-              <div className="table-header">
-                <div>Category</div>
-                <div>Joke</div>
-                <div>Delete?</div>
-              </div>
-              {this.props.savedJokes.sort((a,b) => {
-          let fa = a.categories[0].toLowerCase(),
-              fb = b.categories[0].toLowerCase();
-      
-          if (fa < fb) {
-              return -1;
-          }
-          if (fa > fb) {
-              return 1;
-          }
-          return 0;
-        }).map((j, index)=> {
-                return(
-                <div className="joke-saved">
-                  <div className="joke-content">
-                    <p>{j.categories[0]}</p>
-                    <h3 id={'sj-'+index}>{j.value}</h3>
-                  </div>
-                <FaTimes key={j.id} className="delete" onClick={() => {this.onDelete(j)}} style={{ color: 'red', cursor: 'pointer' }} />
-                {index===this.props.editJokeID ? <FaCheckSquare className="delete" onClick={() => this.toggleEdit(j, index)} style={{color: 'white', cursor: 'pointer'}} /> : <FaEdit className="delete" onClick={() => this.toggleEdit(j, index)} style={{ color: 'white', cursor: 'pointer'}} />}
-            </div>)
-              })}
-              
-            </div> : ''}
-          {this.props.showSaved && this.props.savedJokes.length===0 ? 'No Saved Jokes to Show' : ''}
-              
-          </header>
-        );
-    }
+          {/* Saved Jokes ordered by category then mapped to display*/}
+          {this.props.showSaved && this.props.savedJokes.length>0 ? 
+          <div className="saved-jokes">
+            <div className="table-header">
+              <div>Category</div>
+              <div>Joke</div>
+              <div>Delete?</div>
+            </div>
+            {this.props.savedJokes.sort((a,b) => {
+        let fa = a.categories[0].toLowerCase(),
+            fb = b.categories[0].toLowerCase();
+    
+        if (fa < fb) {
+            return -1;
+        }
+        if (fa > fb) {
+            return 1;
+        }
+        return 0;
+      }).map((j, index)=> {
+              return(
+              <div key={index} className="joke-saved">
+                <div className="joke-content">
+                  <p>{j.categories[0]}</p>
+                  <h3 id={'sj-'+index}>{j.value}</h3>
+                </div>
+              <FaTimes key={j.id} className="delete" onClick={() => {this.onDelete(j)}} style={{ color: 'red', cursor: 'pointer' }} />
+              {index===this.props.editJokeID ? <FaCheckSquare className="delete" onClick={() => this.toggleEdit(j, index)} style={{color: 'white', cursor: 'pointer'}} /> : <FaEdit className="delete" onClick={() => this.toggleEdit(j, index)} style={{ color: 'white', cursor: 'pointer'}} />}
+          </div>)
+            })}
+            
+          </div> : ''}
+        {this.props.showSaved && this.props.savedJokes.length===0 ? 'No Saved Jokes to Show' : ''}
+            
+        </header>
+      );
+  }
 }
 
 Jokesredux.propTypes = {
@@ -164,13 +170,3 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, { fetchCategories, fetchJoke, fetchRandomJoke, saveJoke, toggleShowSaved, getShowSaved, deleteSavedJoke, getEditJokeID, toggleEditing, setEditJokeID })(Jokesredux);
 
-/*
-
-
-
-
-
-
-            
-
-            */
