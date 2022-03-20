@@ -1,71 +1,51 @@
-# Getting Started with Create React App
+# Chuck Norris Joke Generator
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was created by: Adam Conner
 
-## Available Scripts
+## Functionality
 
-In the project directory, you can run:
+Clicking on the joke text will generate a new joke. As will selecting a category and clicking on "new joke"
 
-### `npm start`
+If you click ont the disk icon it will save the joke to a list.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+If you toggle Show Saved, it will show all jokes and their categories that you've saved thus far.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The same joke cannot be saved more than once.
 
-### `npm test`
+When you have saved jokes visible, you can delete them individually by clicking on the red x
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+You can also click the pencil to enable editing of that one jokes text content. When complete, clicking checkmark
+will save those changes to the object in your savedJokes array.
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Timeline
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Thursday, March 10:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+I first opened any video or website related to React.
 
-### `npm run eject`
+I built a basic React App using Use State varaibles to help learn React basics
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Friday, March 11:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+I received the test task to complete. Once looking at the list of requiremenets I decided I would tackle everything using usestate varaibles first (this was a bit of a mistake)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Saturday March 12 - Saturday March 19th:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+I completed all functionality for the app using usestate variables
+This took in total (including learning time) around 11 hours.
 
-## Learn More
+On the last day I started learning about redux stores and realized how I would have to rebuild almost the whole app but that's ok! :)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Sunday March 20th:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+I rebuilt the app using redux stores to handle state and got it all working.
 
-### Code Splitting
+My old code is still in my git project in a "pre-redux-app" folder if you're curious how messy it was.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+I 
+## Known Bugs
 
-### Analyzing the Bundle Size
+The css is not super mobile or small screen friendly. My edit/delete icons are using fixed padding/margins which is causing the issue.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# chuck-norris
+The edit feature works as long as the user does not click on the edit pencil for another joke while still editing one. This needs to be blocked but hasn't been completed yet.
