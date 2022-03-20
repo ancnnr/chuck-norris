@@ -43,9 +43,4 @@ I rebuilt the app using redux stores to handle state and got it all working.
 
 My old code is still in my git project in a "pre-redux-app" folder if you're curious how messy it was.
 
-I 
-## Known Bugs
 
-The css is not super mobile or small screen friendly. My edit/delete icons are using fixed padding/margins which is causing the issue.
-
-The edit feature works as long as the user does not click on the edit pencil for another joke while still editing one. This needs to be blocked but hasn't been completed yet.

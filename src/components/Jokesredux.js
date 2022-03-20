@@ -28,9 +28,10 @@ class Jokesredux extends Component {
         editObj.setAttribute('contentEditable', true)
         editObj.classList.add('editing')
         this.props.setEditJokeID(i)
+        this.props.toggleEditing()
       }
   
-      else { // just finished editing
+      else if(this.props.editJokeID===i){ // just finished editing
         editObj.setAttribute('contentEditable', false)
         editObj.classList.remove('editing')
         this.props.setEditJokeID(-1)
@@ -49,9 +50,10 @@ class Jokesredux extends Component {
             })
   
             this.props.saveJoke(temp_saved_jokes)
+            this.props.toggleEditing()
       }
+      console.log(this.props.editJokeID)
       
-      this.props.toggleEditing()
     }
 
     //deletes a joke object from savedJokes

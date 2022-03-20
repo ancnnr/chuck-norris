@@ -201,16 +201,16 @@ ul {
 .joke-content p {
   justify-self: flex-start;
   margin: 0;
-  margin-right: 30px;
-  margin-left: 15px;
+  margin-right: 1vw;
+  margin-left: 0.5vw;
   padding: 0;
   
 }
 .delete {
   justify-self:flex-end;
   flex-shrink: 0;
-  margin-left: 30px;
-  margin-right: 20px;
+  margin-left: 1vw;
+  margin-right: 0.5vw;
 }
 h3 {
   display: block;
