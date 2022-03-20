@@ -1,0 +1,7 @@
+export const FETCH_JOKE = 'FETCH_JOKE';
+export const FETCH_RANDOM = 'FETCH_RANDOM';
+export const FETCH_CATEGORIES = 'FETCH_CATEGORIES';
+export const SAVE_JOKE = 'SAVE_JOKE';
+export const TOGGLE_SHOW_SAVED = 'TOGGLE_SHOW_SAVED';
+export const GET_SHOW_SAVED = 'GET_SHOW_SAVED';
+export const DELETE_SAVED_JOKE = 'DELETE_SAVED_JOKE'
