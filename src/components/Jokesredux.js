@@ -17,8 +17,8 @@ class Jokesredux extends Component {
       this.onDelete = this.onDelete.bind(this);
     }
     
-    onDelete(joke){
-      this.props.deleteSavedJoke(joke)
+    onDelete(j){
+      this.props.deleteSavedJoke(j)
     }
 
     pullJoke() {
@@ -52,13 +52,14 @@ class Jokesredux extends Component {
 
     componentDidMount() {
       this.props.fetchCategories();
+      //this.props.fetchRandomJoke();
     }
 
     render() {
         return (
           <header>
             <div className="App-header">
-                
+                {console.log(this.props)}
               <div onClick={this.pullJoke}>{ JSON.stringify(this.props.joke)!=='{}' ? this.props.joke.value : 'Click for a joke' }</div>
 
               <div className="save-buttons">
@@ -75,14 +76,25 @@ class Jokesredux extends Component {
                 <div>Joke</div>
                 <div>Delete?</div>
               </div>
-              {this.props.savedJokes.map((j, index)=> {
+              {this.props.savedJokes.sort((a,b) => {
+          let fa = a.categories[0].toLowerCase(),
+              fb = b.categories[0].toLowerCase();
+      
+          if (fa < fb) {
+              return -1;
+          }
+          if (fa > fb) {
+              return 1;
+          }
+          return 0;
+        }).map((j, index)=> {
                 return(
                 <div className="joke-saved">
-                <div className="joke-content">
-                  <p>{j.category}</p>
-                  <h3 id={'sj-'+index}>{j.value}</h3>
-                </div>
-                <FaTimes key={j.id} className="delete" onClick={(j) => {this.onDelete(j)}} style={{ color: 'red', cursor: 'pointer' }} />
+                  <div className="joke-content">
+                    <p>{j.categories[0]}</p>
+                    <h3 id={'sj-'+index}>{j.value}</h3>
+                  </div>
+                <FaTimes key={j.id} className="delete" onClick={() => {this.onDelete(j)}} style={{ color: 'red', cursor: 'pointer' }} />
             </div>)
               })}
               
@@ -99,7 +111,8 @@ Jokesredux.propTypes = {
   joke: PropTypes.object,
   category: PropTypes.string,
   savedJokes: PropTypes.array,
-  showSaved: PropTypes.bool
+  showSaved: PropTypes.bool,
+  deleteSavedJoke: PropTypes.func
 }
 
 const mapStateToProps = state => ({

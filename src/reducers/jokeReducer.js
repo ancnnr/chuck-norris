@@ -12,9 +12,12 @@ export default function(state = initialState, action) {
     switch(action.type) {
         case FETCH_RANDOM:
             console.log('reducing')
+            const newJoke = action.payload
+            newJoke.categories.push('random')
+            
             return {
                 ...state,
-                joke: action.payload,
+                joke: newJoke,
                 category: 'random'
             }
 
@@ -49,6 +52,7 @@ export default function(state = initialState, action) {
 
         case DELETE_SAVED_JOKE:
             return {
+                ...state, 
                 savedJokes: state.savedJokes.filter((j) => j !== action.payload)
             }
 
