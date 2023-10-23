@@ -1,6 +1,7 @@
 # Chuck Norris Joke Generator
 
 This project was created by: Adam Conner
+This was a learning project when trying to learn React for the first time.
 
 ## Functionality
 
